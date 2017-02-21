@@ -1,0 +1,100 @@
+<html>
+<head>
+<script src="openseadragon/openseadragon.js"></script>
+</head>
+<body style="border:0;margin:0;padding:0;">
+  <div id="contentDiv" style="border:0;margin:0;padding:0;background-color:black;"></div>
+<script>
+// handy imagemagick commands
+//
+// insert images as tiles into one large image
+// montage -mode concatenate -tile 9x -background black *.png ./L0/level0.png
+
+// resize images up to some fixed size
+// exclamation point forces the full size.  omitting it will fit the result within the target size
+// mogrify -resize 512x512\! -path ./L0/ *.png
+// mogrify -resize 256x256\! -path ./L1/ *.png
+// mogrify -resize 128x128\! -path ./L2/ *.png
+// mogrify -resize 64x64\! -path ./L3/ *.png
+// mogrify -resize 32x32\! -path ./L4/ *.png
+// mogrify -resize 16x16\! -path ./L5/ *.png
+// mogrify -resize 8x8\! -path ./L6/ *.png
+// mogrify -resize 4x4\! -path ./L7/ *.png
+// mogrify -resize 2x2\! -path ./L8/ *.png
+
+// convert level0.png -crop 512x512 -set filename:tile "%[fx:page.x/512]_%[fx:page.y/512]" +repage +adjoin "L0_%[filename:tile].png"
+// convert level0.png -crop 256x256 -set filename:tile "%[fx:page.x/512]_%[fx:page.y/512]" +repage +adjoin "L0_%[filename:tile].png"
+// convert level0.png -crop 512x512 -set filename:tile "%[fx:page.x/512]_%[fx:page.y/512]" +repage +adjoin "L0_%[filename:tile].png"
+// convert level0.png -crop 512x512 -set filename:tile "%[fx:page.x/512]_%[fx:page.y/512]" +repage +adjoin "L0_%[filename:tile].png"
+// convert level0.png -crop 512x512 -set filename:tile "%[fx:page.x/512]_%[fx:page.y/512]" +repage +adjoin "L0_%[filename:tile].png"
+// convert level0.png -crop 512x512 -set filename:tile "%[fx:page.x/512]_%[fx:page.y/512]" +repage +adjoin "L0_%[filename:tile].png"
+
+var fullresimages = [
+"img40_1.png  img43_1.png  img44_3.png  img46_5.png  img48_5.png  img50_4.png  img52_1.png  img53_7.png  img55_2.png",
+"img40_2.png  img43_10.png img45_1.png  img46_6.png  img48_6.png  img50_5.png  img52_2.png  img53_8.png  img55_3.png",
+"img40_3.png  img43_11.png img45_2.png  img46_7.png  img49_1.png  img50_6.png  img52_3.png  img53_9.png  img55_4.png",
+"img40_4.png  img43_2.png  img45_3.png  img46_8.png  img49_2.png  img50_7.png  img52_4.png  img54_1.png  img55_5.png",
+"img41_1.png  img43_3.png  img45_4.png  img47_1.png  img49_3.png  img51_1.png  img52_5.png  img54_2.png  img56_1.png",
+"img41_2.png  img43_4.png  img45_5.png  img47_2.png  img49_4.png  img51_2.png  img52_6.png  img54_3.png  img56_2.png",
+"img41_3.png  img43_5.png  img45_6.png  img47_3.png  img49_5.png  img51_3.png  img53_1.png  img54_4.png  img56_3.png",
+"img41_4.png  img43_6.png  img45_7.png  img47_4.png  img49_6.png  img51_4.png  img53_10.png img54_5.png  img56_4.png",
+"img41_5.png  img43_7.png  img45_8.png  img47_5.png  img49_7.png  img51_5.png  img53_2.png  img54_6.png  img56_5.png",
+"img41_6.png  img43_8.png  img46_1.png  img48_1.png  img49_8.png  img51_6.png  img53_3.png  img54_7.png  img56_6.png",
+"img42_1.png  img43_9.png  img46_2.png  img48_2.png  img50_1.png  img51_7.png  img53_4.png  img54_8.png  img56_7.png",
+"img42_2.png  img44_1.png  img46_3.png  img48_3.png  img50_2.png  img51_8.png  img53_5.png  img54_9.png",
+"img42_3.png  img44_2.png  img46_4.png  img48_4.png  img50_3.png  img51_9.png  img53_6.png  img55_1.png"].join("  ");
+
+var arra = fullresimages.split(/\s+/);
+// pad this out so it is exactly 9X13 by adding two more images.
+arra.push(arra[0]);
+arra.push(arra[1]);
+
+var TS = [];
+for (var i = 0; i < arra.length; ++i) {
+
+  var LIP = {
+      type: 'legacy-image-pyramid',
+      levels:[]
+  }
+  for (var j = 0; j < 9; ++j) {
+    LIP.levels.push({url:"/tiles/L"+(8-j)+"/"+arra[i], height:(2<<(j+1)), width:(2<<(j+1))})
+//    LIP.levels.push({url:"tiles/L"+j+"/"+arra[i], height:(2<<(8-j)), width:(2<<(8-j))})
+  }
+
+  TS.push(LIP);
+}
+OpenSeadragon({
+    id:              "contentDiv",
+    prefixUrl:       "openseadragon/images/",
+
+    wrapVertical:true,
+    wrapHorizontal:true,
+    visibilityRatio:0,
+
+    //debugMode:true,
+    minZoomImageRatio:0.1,
+
+    tileSources:   "tiles/cells.dzi",
+    //tileSources:   "tiles/cells2.dzi",
+
+    // tileSources:   {
+    //     height: 13*512,
+    //     width:  9*512,
+    //     tileSize: 512,
+    //     minLevel: 0,
+    //     maxLevel: 8,
+    //     getTileUrl: function( level, x, y ){
+    //       //console.log("L"+level+",X"+x+",Y"+y);
+    //         return "tiles/pyramid/L" + (8-level) + "_" + x + "_" + y + ".png";
+    //     }
+    // }
+
+    //tileSources:TS
+    //collectionMode:       true,
+    //collectionRows:       13,
+    //collectionTileSize:   256,
+    //collectionTileMargin: 0
+});
+</script>
+</body>
+</html>
