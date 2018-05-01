@@ -50,7 +50,7 @@ import io
 
 import sys
 import time
-import urllib
+import urllib.request
 import warnings
 import xml.dom.minidom
 
