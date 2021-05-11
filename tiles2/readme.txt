@@ -7,4 +7,4 @@ shuf -zn35 -e *.png  | xargs -0 -I % cp % "$(cat /dev/urandom | tr -cd '0-9' | h
 copy cells.png ..\generator\deepzoom.py\examples\helloworld
 cd ..\generator\deepzoom.py\examples\helloworld
 python helloworld.py
-# copy cells.dzi and cells_files into ./tiles subdir where index.html is pointing to it.
+# copy cells.dzi and cells_files into ./webpage/tiles subdir where ./webpage/index.html is pointing to it.

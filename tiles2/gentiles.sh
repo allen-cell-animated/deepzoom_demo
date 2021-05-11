@@ -1,5 +1,8 @@
 #!/usr/bin/env bash -x
 
+# DO NOT USE; DEPRECATED;  SEE readme.txt FOR INSTRUCTIONS
+exit
+
 # my pyramid generator using imagemagick routines.
 # first create the level0.png image.  this is the full sized, full rez image.
 convert -resize 50% level0.png level1.png

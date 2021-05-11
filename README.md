@@ -6,7 +6,7 @@ One line description
 
 ## Description
 
-Main features in a brief descriptive text.
+SEE INSTRUCTIONS IN tiles2/readme.txt
 
 ## Installation
 
