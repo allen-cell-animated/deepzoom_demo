@@ -12,7 +12,7 @@ imgpath = '//allen/aics/animated-cell/Allen-Cell-Explorer/Allen-Cell-Explorer_2_
 # just get ALL files from this dir into a flat list.  name collisions will be overwritten
 def pull_files(dataset):
     for dirpath, dirnames, filenames in os.walk(dataset):
-        for filename in [f for f in filenames if len(f.split('_')) == 3]:
+        for filename in [f for f in filenames if len(f.split('_')) == 3 and f.endswith("png")]:
             shutil.copy(os.path.join(dirpath, filename), dest_dir)
 
 for dirpath, dirnames, filenames in os.walk(imgpath):
